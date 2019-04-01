@@ -83,10 +83,32 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 		return false;
 	}
 
+	/* Removes the node in the acorrding index.
+	 * Returns true if the element is erased, or an IndexOutBoundsException if illegal.
+	 */
 	@Override
 	public boolean remove(int index) {
-		// TODO Auto-generated method stub
-		return false;
+		if (isEmpty())
+			return false;
+		this.checkIndex(index);
+		if (index == 0) {
+			Node<E> temp = this.header.getNext();
+			this.header.setNext(temp.getNext());
+			temp.setElement(null);
+			temp.setNext(null);
+			this.size--;
+			return true;
+		}
+		else {
+			Node<E> temp1 = this.findNode(index - 1);
+			Node<E> temp2 = temp1.getNext();
+			temp1.setNext(temp2.getNext());
+			temp2.setNext(null);
+			temp2.setElement(null);
+			this.size--;
+			return true;
+		}
+		
 	}
 
 	@Override
@@ -123,7 +145,9 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
+		// By setting the header null, the JVM garbage collector clears all the
+		// other nodes, clearing all the list.
+		this.header.setNext(null);
 		
 	}
 	
@@ -135,7 +159,7 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 		Node<E> temp = this.header;
 		
 		int count = 0;
-		while (count < this.size()) { //Iterates until found element 'e'
+		while (count < this.size()) { //Iterates until element 'e' is found
 			if (temp.getNext().equals(e)) {
 				return true;
 			}
@@ -159,14 +183,16 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 	}
 
 	/* Returns the index (int) of the first element by
-	 iterator over the list.
+	 iterating over the list.
+	 Returns -1 if element isn't found in the list.
 	 */
 	@Override
 	public int firstIndex(E e) {
 		int index = 0;
 		Node<E> temp = this.header;
 		int count = 0;
-		while (!temp.getNext().getElement().equals(e) && (count < size) ) {
+		//Iterates over the list until the first element of 'e' is found and it saves the index.
+		while (!temp.getNext().getElement().equals(e) && (count < this.size()) ) {
 			temp = temp.getNext();
 			index ++;
 		}
@@ -175,10 +201,25 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 		return -1;
 	}	
 
+	/* Returns the index (int) of the last element by
+	 iterating over the list.
+	 Returns -1 if element isn't found in the list.
+	 */
 	@Override
 	public int lastIndex(E e) {
-		// TODO Auto-generated method stub
-		return 0;
+		int index = 0;
+		int lastIndexPos = -1;
+		Node<E> temp = this.header;
+		int count = 0;
+		// Iterates over all the list, saving the last position where the 
+		// element 'e' is present.
+		while (count < this.size()) {
+			if (temp.getNext().equals(e))
+				lastIndexPos = index;
+			temp = temp.getNext();
+			index ++;
+		}
+		return lastIndexPos;
 	}
 
 	@Override
