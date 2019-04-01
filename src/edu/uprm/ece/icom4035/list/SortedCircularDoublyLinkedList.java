@@ -77,13 +77,33 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 		return this.size;
 	}
 
+	
+	/* Removes the first node that has the same element in the parameter.
+	 * Returns true if the element is erased, or an IndexOutBoundsException if illegal.
+	 */
 	@Override
 	public boolean remove(E obj) {
-		// TODO Auto-generated method stub
-		return false;
+		if (isEmpty())
+			return  false;
+		
+		//Option 1
+//		Node<E> temp = this.header;
+//		int count = 0;
+//		while (!temp.getNext().equals(obj) && (count < this.size())) {
+//			temp = temp.getNext();
+//			count ++;
+//		}
+//		if (count >= this.size()-1)
+//			return false;
+//			
+//		remove(count);
+		
+		//Option 2
+		remove(firstIndex(obj));
+		return true;
 	}
 
-	/* Removes the node in the acorrding index.
+	/* Removes the node in the according index.
 	 * Returns true if the element is erased, or an IndexOutBoundsException if illegal.
 	 */
 	@Override
@@ -111,10 +131,23 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 		
 	}
 
+	/* Removes all the nodes in the list that have the element in the parameter.
+	 * Returns the amount of elements erased.
+	 */
 	@Override
 	public int removeAll(E obj) {
-		// TODO Auto-generated method stub
-		return 0;
+		int amountRemoved = 0;
+		int count = 0;
+		Node<E> temp = this.header;
+		while (count < this.size()) {
+			if (temp.getNext().equals(obj)) {
+				remove(count);
+			}
+			temp = temp.getNext();
+			count ++;
+		}
+				
+		return amountRemoved;
 	}
 
 	/* Returns the first element in the list */
