@@ -181,6 +181,7 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 		// By setting the header null, the JVM garbage collector clears all the
 		// other nodes, clearing all the list.
 		this.header.setNext(null);
+		this.header.setPrevious(null);
 		
 	}
 	
