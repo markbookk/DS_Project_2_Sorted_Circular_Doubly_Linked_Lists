@@ -27,7 +27,7 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 			this.previous = null;
 		}
 		
-		public Node(T e, Node<T> N, Node<T> P) {
+		public Node(Node<T> N, Node<T> P, T e) {
 			this.element = e;
 			this.next = N;
 			this.previous = P;
@@ -59,17 +59,30 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 		this.header = null;
 	}
 	
-	
-	@Override
-	public Iterator<E> iterator() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	/* Adds a new element to the list in the right order by iterating
+	 * over the list comparable interface.
+	 */
 	@Override
 	public boolean add(E obj) {
-		// TODO Auto-generated method stub
-		return false;
+		if (isEmpty()) {
+			header.setNext(new Node<E>(header, header, obj));
+			header.setPrevious(header.getNext());
+		}
+		int count = 0;
+		Node<E> temp = header.getNext();
+		while (count < this.size()) {
+			if (temp.getElement().compareTo(obj) == -1)
+				temp = temp.getNext();
+			else {
+				addBetween(temp, temp.getNext(), obj);
+				break;
+			}
+			count ++;
+		}
+		//what happens when it is added in the last element
+		//check header
+		this.size++;
+		return true;
 	}
 
 	@Override
@@ -210,12 +223,6 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 		return this.size() == 0;
 	}
 
-	@Override
-	public Iterator<E> iterator(int index) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	/* Returns the index (int) of the first element by
 	 iterating over the list.
 	 Returns -1 if element isn't found in the list.
@@ -255,6 +262,20 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 		}
 		return lastIndexPos;
 	}
+	
+
+	@Override
+	public Iterator<E> iterator() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Iterator<E> iterator(int index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 
 	@Override
 	public ReverseIterator<E> reverseIterator() {
@@ -288,6 +309,12 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 		}
 		return temp;
 		
+	}
+	
+	private void addBetween(Node<E> P, Node<E> N, E e) {
+		Node<E> nNode = new Node<E>(P, N, e);
+		P.setNext(nNode);
+		P.setPrevious(nNode);
 	}
 
 
