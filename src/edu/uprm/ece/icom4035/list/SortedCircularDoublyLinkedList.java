@@ -54,6 +54,8 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 //	private Node<E> tail;
 	private int size;
 	
+	//Constructor for class
+	//Initializes header and size variables
 	public SortedCircularDoublyLinkedList() {
 		this.size = 0;
 		this.header = new Node<E>();
@@ -87,6 +89,7 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 		return true;
 	}
 
+	//Getter for the size of the list
 	@Override
 	public int size() {
 		return this.size;
@@ -113,7 +116,8 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 //			
 //		remove(count);
 		
-		//Option 2
+		//Option 2 - uses two  methods  already implemented to 
+		//minimize code
 		remove(firstIndex(obj));
 		return true;
 	}
@@ -127,18 +131,23 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 			return false;
 		this.checkIndex(index);
 		if (index == 0) {
+			//moves the node pointers
 			Node<E> temp = this.header.getNext();
 			this.header.setNext(temp.getNext());
+			//set the fields null for garbage  collector
 			temp.setElement(null);
 			temp.setNext(null);
+			temp.setPrevious(null);
 			this.size--;
 			return true;
 		}
 		else {
+			//moves the node pointers after finding the appropiate nodes
 			Node<E> temp1 = this.findNode(index - 1);
 			Node<E> temp2 = temp1.getNext();
 			temp1.setNext(temp2.getNext());
 			temp1.getNext().setPrevious(temp1);
+			//set the fields null for garbage  collector
 			temp2.setNext(null);
 			temp2.setPrevious(null);
 			temp2.setElement(null);
@@ -196,6 +205,11 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 		return target.getElement();
 	}
 
+	/* Clears all the required nodes by clearing the next and
+	 previous node of the header since the garbage collector
+	 will clear the other nodes because there is no pointer to
+	 those nodes being used by the program.
+	 */
 	@Override
 	public void clear() {
 		// By setting the header null, the JVM garbage collector clears all the
@@ -275,16 +289,19 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 	}
 	
 	
+	/* Creates a foward iterator class for the list */
 	private class ListIterator<E> implements Iterator<E> {
 
 		private Node<E> currentNode;
 		private int count;
-
+		
+		//Constructor for the iterator
 		public ListIterator() {
 			this.currentNode = (Node<E>) header;
 			this.count = 0;
 		}
 		
+		//Constructor with parameters
 		public ListIterator(int index) {
 			int i = 0;
 			this.currentNode = (Node<E>) header;
@@ -296,6 +313,7 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 		}
 		
 		
+		//Checks if there is a next element in the list
 		@Override
 		public boolean hasNext() {
 //			return this.currentNode.getNext() != header;
@@ -303,6 +321,8 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 			return count < size();
 		}
 
+		//Gets the next element, if is not possible,
+		//throws an NoSuchElementException 
 		@Override
 		public E next() {
 			if (this.hasNext()) {
@@ -317,26 +337,31 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 		
 	}
 
+	//returns an instance of the class ListIterator
 	@Override
 	public Iterator<E> iterator() {
 		return new ListIterator<E>();
 	}
 
+	//returns an instance of the class ListIterator with parameter
 	@Override
 	public Iterator<E> iterator(int index) {
 		return new ListIterator<E>(index);
 	}
 	
+	/* Creates a reverse iterator class for the list */
 	private class ReverseListIterator<E> implements ReverseIterator<E> {
 
 		private Node<E> currentNode;
 		private int count;
 
+		//Constructor for the reverse iterator
 		public ReverseListIterator() {
 			this.currentNode = (Node<E>) header;
 			this.count = 0;
 		}
 		
+		//Constructor with  parameters
 		public ReverseListIterator(int index) {
 			int i = 0;
 			this.currentNode = (Node<E>) header;
@@ -347,11 +372,14 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 			this.count = 0;
 		}
 		
+		//Checks if there is a next element in the list
 		@Override
 		public boolean hasPrevious() {
 			return this.count < size();
 		}
 
+		//Gets the previous element, if is not possible,
+		//throws an NoSuchElementException 
 		@Override
 		public E previous() {
 			if (this.hasPrevious()) {
@@ -366,11 +394,13 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 		
 	}
 	
+	//returns an instance of the class ReverseListIterator
 	@Override
 	public ReverseIterator<E> reverseIterator() {
 		return new ReverseListIterator<E>();
 	}
 
+	//returns an instance of the class ReverseListIterator with parameter
 	@Override
 	public ReverseIterator<E> reverseIterator(int index) {
 		return new ReverseListIterator<E>(index);
@@ -380,12 +410,14 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 	/////Custom methods to facilitate code/////
 	///////////////////////////////////////////
 	
+	//Verifies if the index is valid, else throws IndexOutOfBoundsException
 	private void checkIndex(int index) {
 		if ((index < 0) || (index >= this.size())){
 			throw new IndexOutOfBoundsException();
 		}
 	}
 	
+	//Find a node in the list on a certain index
 	private Node<E> findNode(int index) {
 		Node<E> temp = this.header.getNext();
 		int i = 0;
@@ -398,12 +430,14 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 		
 	}
 	
+	//Adds a new node with element 'e' between two nodes
 	private void addBetween(Node<E> P, Node<E> N, E e) {
 		Node<E> nNode = new Node<E>(N, P, e);
 		P.setNext(nNode);
 		N.setPrevious(nNode);
 	}
 	
+	//Custom method to test the iterators and for debugging
 	public void marcosString() {
 		Node<E> temp = header.getNext();
 		int count = 0;
