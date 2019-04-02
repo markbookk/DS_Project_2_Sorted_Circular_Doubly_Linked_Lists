@@ -240,11 +240,13 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 		Node<E> temp = this.header;
 		int count = 0;
 		//Iterates over the list until the first element of 'e' is found and it saves the index.
-		while (!temp.getNext().getElement().equals(e) && (count < this.size()) ) {
+		//count and index work the same so we use index to avoid creating
+		//another variable
+		while ((index < this.size()) && !temp.getNext().getElement().equals(e) ) {
 			temp = temp.getNext();
 			index ++;
 		}
-		if (temp.getNext().getElement().equals(e))
+		if ((index < this.size()) && temp.getNext().getElement().equals(e))
 			return index;
 		return -1;
 	}	
