@@ -1,5 +1,7 @@
 package edu.uprm.ece.icom4035.list;
 
+import java.util.Iterator;
+
 public class ListTester {
 
 	/**
@@ -11,6 +13,7 @@ public class ListTester {
 		theList.add("Bob");
 		theList.add("Ron");
 		printList(theList);
+		theList.add("Jil");
 		System.out.println("Element 0 is Bob: " + theList.get(0).equals("Bob"));
 		System.out.println("Element 1 is Jil: " + theList.get(1).equals("Jil"));
 		theList.add("Amy");
@@ -29,14 +32,26 @@ public class ListTester {
 
 	}
 
+
+//	private static void printList(SortedList<String> theList) {
+//		for (String s: theList){
+//			System.out.println(s);
+//		}
+//	}
 	private static void printList(SortedList<String> theList) {
-		for (String s: theList){
-			System.out.println(s);
+		for (Iterator<String> iter = theList.iterator(0); iter.hasNext(); ){
+			System.out.println(iter.next());
 		}
 	}
 
+//	private static void printReverseList(SortedList<String> theList) {
+//		for (ReverseIterator<String> iter = theList.reverseIterator(); iter.hasPrevious(); ){
+//			System.out.println(iter.previous());
+//		}
+//	}
+	
 	private static void printReverseList(SortedList<String> theList) {
-		for (ReverseIterator<String> iter = theList.reverseIterator(); iter.hasPrevious(); ){
+		for (ReverseIterator<String> iter = theList.reverseIterator(0); iter.hasPrevious(); ){
 			System.out.println(iter.previous());
 		}
 	}

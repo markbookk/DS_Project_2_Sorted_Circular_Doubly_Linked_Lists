@@ -282,6 +282,17 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 			this.count = 0;
 		}
 		
+		public ListIterator(int index) {
+			int i = 0;
+			this.currentNode = (Node<E>) header;
+			while (i < index) {
+				this.currentNode = this.currentNode.getNext();
+				i++;
+			}
+			this.count = 0;
+		}
+		
+		
 		@Override
 		public boolean hasNext() {
 //			return this.currentNode.getNext() != header;
@@ -292,8 +303,7 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 		@Override
 		public E next() {
 			if (this.hasNext()) {
-				E result = null;
-				result = this.currentNode.getNext().getElement();
+				E result = this.currentNode.getNext().getElement();
 				this.currentNode = this.currentNode.getNext();
 				this.count ++;
 				return result;
@@ -311,8 +321,7 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 
 	@Override
 	public Iterator<E> iterator(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		return new ListIterator<E>(index);
 	}
 	
 	private class ReverseListIterator<E> implements ReverseIterator<E> {
@@ -322,6 +331,16 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 
 		public ReverseListIterator() {
 			this.currentNode = (Node<E>) header;
+			this.count = 0;
+		}
+		
+		public ReverseListIterator(int index) {
+			int i = 0;
+			this.currentNode = (Node<E>) header;
+			while (i < index) {
+				this.currentNode = this.currentNode.getPrevious();
+				i++;
+			}
 			this.count = 0;
 		}
 		
@@ -346,14 +365,12 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 	
 	@Override
 	public ReverseIterator<E> reverseIterator() {
-		// TODO Auto-generated method stub
 		return new ReverseListIterator<E>();
 	}
 
 	@Override
 	public ReverseIterator<E> reverseIterator(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		return new ReverseListIterator<E>(index);
 	}
 	
 	///////////////////////////////////////////
