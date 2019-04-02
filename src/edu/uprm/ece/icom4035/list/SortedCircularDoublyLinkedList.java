@@ -202,6 +202,7 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 		// other nodes, clearing all the list.
 		this.header.setNext(null);
 		this.header.setPrevious(null);
+		this.size = 0;
 		
 	}
 	
