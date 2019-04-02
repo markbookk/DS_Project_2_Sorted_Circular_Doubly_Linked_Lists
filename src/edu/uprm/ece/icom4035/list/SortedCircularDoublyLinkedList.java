@@ -242,7 +242,7 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 			index ++;
 		}
 		if (temp.getNext().getElement().equals(e))
-			return index+1;
+			return index;
 		return -1;
 	}	
 
