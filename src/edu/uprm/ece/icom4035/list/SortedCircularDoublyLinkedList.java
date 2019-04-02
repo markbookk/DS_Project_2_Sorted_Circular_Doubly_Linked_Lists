@@ -56,7 +56,7 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 	
 	public SortedCircularDoublyLinkedList() {
 		this.size = 0;
-		this.header = null;
+		this.header = new Node<E>();
 	}
 	
 	/* Adds a new element to the list in the right order by iterating
@@ -69,18 +69,21 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 			header.setPrevious(header.getNext());
 		}
 		int count = 0;
-		Node<E> temp = header.getNext();
+		Node<E> temp = header;
 		while (count < this.size()) {
-			if (temp.getElement().compareTo(obj) == -1)
+			if (temp.getNext().getElement().compareTo(obj) < 0)
 				temp = temp.getNext();
 			else {
+				System.out.println("nic->" + temp.getElement() + "___" + temp.getNext().getElement());
 				addBetween(temp, temp.getNext(), obj);
 				break;
 			}
 			count ++;
 		}
-		//what happens when it is added in the last element
-		//check header
+		if (count == this.size()) { //if it gets to the end of the list
+//			temp = temp.getPrevious(); //have to go back once because it had already returned to the previous position
+			addBetween(temp, header, obj);
+		}
 		this.size++;
 		return true;
 	}
@@ -263,11 +266,42 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 		return lastIndexPos;
 	}
 	
+	
+	private class ListIterator<E> implements Iterator<E> {
+
+		private Node<E> currentNode;
+		private int count;
+
+		public ListIterator() {
+			this.currentNode = (Node<E>) header;
+			this.count = 0;
+		}
+		
+		@Override
+		public boolean hasNext() {
+//			return this.currentNode.getNext() != header;
+//			System.out.println(count + "\t" + size());
+			return count < size();
+		}
+
+		@Override
+		public E next() {
+			if (this.hasNext()) {
+				E result = null;
+				result = this.currentNode.getNext().getElement();
+				this.currentNode = this.currentNode.getNext();
+				this.count ++;
+				return result;
+			}else {
+				throw new NoSuchElementException();
+			}
+		}
+		
+	}
 
 	@Override
 	public Iterator<E> iterator() {
-		// TODO Auto-generated method stub
-		return null;
+		return new ListIterator<>();
 	}
 
 	@Override
@@ -312,9 +346,19 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 	}
 	
 	private void addBetween(Node<E> P, Node<E> N, E e) {
-		Node<E> nNode = new Node<E>(P, N, e);
+		Node<E> nNode = new Node<E>(N, P, e);
 		P.setNext(nNode);
-		P.setPrevious(nNode);
+		N.setPrevious(nNode);
+	}
+	
+	public void marcosString() {
+		Node<E> temp = header.getNext();
+		int count = 0;
+		while (count < this.size()) {
+			System.out.println(temp.getElement());
+			temp = temp.getNext();
+			count ++;
+		}
 	}
 
 
