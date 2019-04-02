@@ -157,10 +157,13 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 		int count = 0;
 		Node<E> temp = this.header;
 		while (count < this.size()) {
-			if (temp.getNext().equals(obj)) {
+			if (temp.getNext().getElement().equals(obj)) {
 				remove(count);
+				count --; //when (remove(count) is executed, size decreases by 1 so we have to decrease count/index
+				amountRemoved++;
+			}else {
+				temp = temp.getNext();
 			}
-			temp = temp.getNext();
 			count ++;
 		}
 				
