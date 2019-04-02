@@ -74,7 +74,6 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 			if (temp.getNext().getElement().compareTo(obj) < 0)
 				temp = temp.getNext();
 			else {
-				System.out.println("nic->" + temp.getElement() + "___" + temp.getNext().getElement());
 				addBetween(temp, temp.getNext(), obj);
 				break;
 			}
@@ -139,7 +138,9 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 			Node<E> temp1 = this.findNode(index - 1);
 			Node<E> temp2 = temp1.getNext();
 			temp1.setNext(temp2.getNext());
+			temp1.getNext().setPrevious(temp1);
 			temp2.setNext(null);
+			temp2.setPrevious(null);
 			temp2.setElement(null);
 			this.size--;
 			return true;
@@ -301,7 +302,7 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 
 	@Override
 	public Iterator<E> iterator() {
-		return new ListIterator<>();
+		return new ListIterator<E>();
 	}
 
 	@Override
@@ -310,11 +311,39 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 		return null;
 	}
 	
+	private class ReverseListIterator<E> implements ReverseIterator<E> {
 
+		private Node<E> currentNode;
+		private int count;
+
+		public ReverseListIterator() {
+			this.currentNode = (Node<E>) header;
+			this.count = 0;
+		}
+		
+		@Override
+		public boolean hasPrevious() {
+			return this.count < size();
+		}
+
+		@Override
+		public E previous() {
+			if (this.hasPrevious()) {
+				E result = this.currentNode.getPrevious().getElement();
+				this.currentNode = this.currentNode.getPrevious();
+				this.count ++;
+				return result;
+			}else {
+				throw new NoSuchElementException();
+			}
+		}
+		
+	}
+	
 	@Override
 	public ReverseIterator<E> reverseIterator() {
 		// TODO Auto-generated method stub
-		return null;
+		return new ReverseListIterator<E>();
 	}
 
 	@Override

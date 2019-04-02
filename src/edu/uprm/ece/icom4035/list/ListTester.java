@@ -9,37 +9,24 @@ public class ListTester {
 		SortedList<String> theList = new SortedCircularDoublyLinkedList<String>();
 		System.out.println("Empty List: " + theList.isEmpty());
 		theList.add("Bob");
-		printList(theList);//
 		theList.add("Ron");
-		printList(theList);//
-		System.out.println("=========");
-//		((SortedCircularDoublyLinkedList) theList).marcosString();
-//		System.exit(0);//
-//		printList(theList);
+		printList(theList);
 		theList.add("Jil");
-		printList(theList);//
-//		System.exit(0);//
 		System.out.println("Element 0 is Bob: " + theList.get(0).equals("Bob"));
 		System.out.println("Element 1 is Jil: " + theList.get(1).equals("Jil"));
-		System.out.println("-=--=-=-=-=-=--=-=--==");
 		theList.add("Amy");
-		System.out.println("-=--=-=-=-=-=--=-=--==");
-		printList(theList);
-		System.exit(0);
 		System.out.println("First element is Amy: " + theList.first().equals("Amy"));
 		theList.add("Ned");
 		System.out.println("Last element is Ned: " + theList.last().equals("Ned"));  // must be false
 		System.out.println("Last element is Ron: " + theList.last().equals("Ron"));
 		theList.add("Cal");
-		printList(theList);
-		System.exit(0);
 		printReverseList(theList);
 		System.out.println("Remove element at position 1: " + theList.remove(1));
 		printReverseList(theList);
 		System.out.println("Remove last elements: " + theList.remove("Ron"));
 		printList(theList);
 		System.out.println();
-//		printReverseList(theList);
+		printReverseList(theList);
 
 	}
 
