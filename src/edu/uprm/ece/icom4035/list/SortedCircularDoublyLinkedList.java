@@ -255,11 +255,12 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 		int index = 0;
 		int lastIndexPos = -1;
 		Node<E> temp = this.header;
-		int count = 0;
 		// Iterates over all the list, saving the last position where the 
 		// element 'e' is present.
-		while (count < this.size()) {
-			if (temp.getNext().equals(e))
+		//count and index work the same so we use index to avoid creating
+		//another variable
+		while (index < this.size()) {
+			if (temp.getNext().getElement().equals(e))
 				lastIndexPos = index;
 			temp = temp.getNext();
 			index ++;
