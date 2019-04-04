@@ -212,11 +212,21 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 	 */
 	@Override
 	public void clear() {
+		// Method #1
 		// By setting the header null, the JVM garbage collector clears all the
 		// other nodes, clearing all the list.
-		this.header.setNext(null);
-		this.header.setPrevious(null);
-		this.size = 0;
+//		this.header.setNext(null);
+//		this.header.setPrevious(null);
+//		this.size = 0;
+		
+		// Method #2
+		//Iterates deleting the first element in the list until
+		//there are no nodes left
+		//This method can be more efficient based on garbage
+		//collector but required a while loop so it may take
+		//more time on runtime
+		while (!this.isEmpty())
+			this.remove(0);
 		
 	}
 	
